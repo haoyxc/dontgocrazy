@@ -1,4 +1,3 @@
-import $ from "jquery"
 alert("Hello from your Chrome extension!")
 
 chrome.runtime.onMessage.addListener(
