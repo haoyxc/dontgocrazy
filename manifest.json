@@ -9,7 +9,7 @@
       ],
       "js": [
         "node_modules/jquery/dist/jquery.min.js",
-        "content.js"
+        "js/content.js"
       ]
     }
   ],
