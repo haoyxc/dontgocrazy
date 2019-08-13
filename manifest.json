@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Crazy Extension",
-    "version": "1.0",
+    "name": "My Cool Extension",
+    "version": "0.1",
     "content_scripts": [
         {
           "matches": [
