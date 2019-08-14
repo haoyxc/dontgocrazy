@@ -4,9 +4,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     var activeTab = tabs[0];
     chrome.identity.getProfileUserInfo(function(userInfo) {
-      chrome.tabs.sendMessage(activeTab.id, {message: "clicked_browser_action", status: status, userId: userInfo.id})
-      
-      $.post("https://tranquil-wildwood-15780.herokuapp.com/createUser", {
+      chrome.tabs.sendMessage(activeTab.id, {message: "clicked_browser_action", status: "first", userId: userInfo.id})
+      $.post("https://www.gocrazy/createUser", {
         name: "Brian",
         userId: userInfo.id.toString()
       })

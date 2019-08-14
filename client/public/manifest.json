@@ -13,6 +13,7 @@
         "<all_urls>"
       ],
       "js": [
+        "js/jquery.min.js",
         "js/content.js"
       ]
     }
@@ -28,6 +29,7 @@
   },
   "background": {
     "scripts": [
+      "js/jquery.min.js",
       "js/background.js"
     ]
   }
