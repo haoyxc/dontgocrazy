@@ -4,8 +4,10 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     var activeTab = tabs[0];
     chrome.identity.getProfileUserInfo(function(userInfo) {
-      chrome.tabs.sendMessage(activeTab.id, { message: "clicked_browser_action", userId: userInfo.id });
-    })
-    
+      chrome.tabs.sendMessage(activeTab.id, {
+        message: "clicked_browser_action",
+        userId: userInfo.id
+      });
+    });
   });
 });
