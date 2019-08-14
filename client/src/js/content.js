@@ -4,5 +4,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     const id = request.userId;
     console.log(getUrl);
     console.log(id);
+    console.log("STATUS", request.status);
   }
 });
