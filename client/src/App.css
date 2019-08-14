@@ -1,33 +1,21 @@
-.App {
-  text-align: center;
+:root {
+  --color1: #010059;
+  --color2: #52437b;
+  --color3: #ff7a8a;
+  --color4: #fcf594;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.container-main {
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.container-header {
+  background: var(--color2);
   color: white;
+  font-size: 30px;
+  padding: 20px;
 }
-
-.App-link {
-  color: #61dafb;
+.piechart-container {
+  margin: 0 auto;
+  padding-top: 30px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.piechart-container * {
+  height: 300px;
 }
