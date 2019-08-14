@@ -27,6 +27,6 @@
     "default_icon": "img/icon.png"
   },
   "chrome_url_overrides": {
-    "newtab": "views/popup.html"
+    "newtab": "client/public/index.html"
   }
 }
