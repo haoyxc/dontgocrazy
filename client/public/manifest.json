@@ -3,7 +3,7 @@
   "name": "Hacker Tab",
   "author": "go crazy",
   "version": "1.0.1",
-  "content_security_policy": "script-src 'self' 'sha256-9suImM4wYFhYATfEkHWvI2w3BjGmBD+Tz0Hq62fiEys='",
+  "content_security_policy": "script-src 'self' 'sha256-9suImM4wYFhYATfEkHWvI2w3BjGmBD+Tz0Hq62fiEys=';",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
@@ -13,7 +13,6 @@
         "<all_urls>"
       ],
       "js": [
-        "js/jquery.min.js",
         "js/content.js"
       ]
     }
@@ -30,7 +29,6 @@
   },
   "background": {
     "scripts": [
-      "js/jquery.min.js",
       "js/background.js"
     ]
   }
