@@ -1,16 +1,18 @@
-const urls = [
-  "*://*.facebook.com/",
-  "*://*.twitter.com/",
-  "*://*.youtube.com/",
-  "*://*.instagram.com/"
-];
-
+//urls for testing
+const urls = ["*://*.facebook.com/", "*://*.youtube.com/", "*://*.instagram.com/"];
+console.log("HELLP");
 let active = {};
+const STORAGE = chrome.storage.local;
+
+const update = async (host, seconds) => {
+  const currentDate = new Date().toISOString().substr(0, 10);
+  const data = await getDate(currentDate);
+};
 
 const end = () => {
   if (active.name) {
     const timeDiff = parseInt((Date.now() - active.time) / 1000);
-    console.log(`you used ${timeDiff} seconds on ${active.name}`);
+    console.log(`${timeDiff} seconds on ${active.name}`);
     active = {};
   }
 };
@@ -63,7 +65,11 @@ chrome.tabs.onActivated.addListener(() => {
 });
 
 chrome.windows.onFocusChanged.addListener(window => {
-  console.log("WINDOW", window);
+  if (window === -1) {
+    end();
+  } else {
+    setActive();
+  }
 });
 
 // Called when the user clicks on the browser action.
