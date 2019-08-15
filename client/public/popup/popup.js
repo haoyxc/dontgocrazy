@@ -1,20 +1,28 @@
 $(document).ready(function() {
-    chrome.identity.getProfileUserInfo(function(userInfo) {
-        $('#userId').text(userInfo.id);
-    });
+	chrome.identity.getProfileUserInfo(function(userInfo) {
+		$('#userId').text(userInfo.id);
+	});
 	$('#checkPage').click(function() {
 		chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            chrome.identity.getProfileUserInfo(function(userInfo) {
-				$.post('http://tranquil-wildwood-15780.herokuapp.com/createUser', {
-					name: 'Brian',
-					userId: userInfo.id.toString()
-				})
-					.done(function() {
-						alert('success');
+			chrome.identity.getProfileUserInfo(function(userInfo) {
+				let username = $('#username').val().trim();
+				if (username === '') {
+					$('#errorText').css('color', 'red');
+					$('#errorText').text('Please enter a valid name');
+				} else {
+					$.post('http://46de41cf.ngrok.io/createUser', {
+						name: username,
+						userId: userInfo.id.toString()
 					})
-					.fail(function() {
-						alert('failure');
-					});
+						.done(function() {
+							$('#errorText').css('color', 'green');
+							$('#errorText').text('Connected to mobile!');
+						})
+						.fail(function() {
+							$('#errorText').css('color', 'red');
+							$('#errorText').text("Something went wrong")
+						});
+				}
 			});
 		});
 	});
