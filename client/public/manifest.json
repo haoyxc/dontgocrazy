@@ -7,6 +7,11 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  },
   "content_scripts": [
     {
       "matches": [
@@ -26,10 +31,5 @@
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "/popup/popup.html"
-  },
-  "background": {
-    "scripts": [
-      "js/background.js"
-    ]
   }
 }
