@@ -1,3 +1,71 @@
+const urls = [
+  "*://*.facebook.com/",
+  "*://*.twitter.com/",
+  "*://*.youtube.com/",
+  "*://*.instagram.com/"
+];
+
+let active = {};
+
+const end = () => {
+  if (active.name) {
+    const timeDiff = parseInt((Date.now() - active.time) / 1000);
+    console.log(`you used ${timeDiff} seconds on ${active.name}`);
+    active = {};
+  }
+};
+
+const getActiveTab = () => {
+  return new Promise(resolve => {
+    chrome.tabs.query(
+      {
+        active: true,
+        currentWindow: true
+      },
+      activeTab => {
+        resolve(activeTab[0]);
+      }
+    );
+  });
+};
+
+const setActive = async () => {
+  const activeTab = await getActiveTab();
+  if (activeTab) {
+    const { url } = activeTab;
+
+    //check if tab's url is in the array of urls
+    let host = new URL(url).hostname;
+    host = host.replace("www.", "").replace(".com", "");
+    if (urls.some(each => each.includes(host))) {
+      if (active.name !== host) {
+        //if diff site is active then end existing site's session
+        end();
+        active = {
+          name: host,
+          time: Date.now()
+        };
+        console.log(`${active.name} visited at ${active.time}`);
+      }
+    }
+  }
+};
+chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
+  console.log("TAB", tab);
+  setActive();
+});
+
+chrome.tabs.onActivated.addListener(() => {
+  if (active.name) {
+    end();
+  }
+  setActive();
+});
+
+chrome.windows.onFocusChanged.addListener(window => {
+  console.log("WINDOW", window);
+});
+
 // Called when the user clicks on the browser action.
 // chrome.browserAction.onClicked.addListener(function(tab) {
 //   // Send a message to the active tab
