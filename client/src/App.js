@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import PieChart from "react-minimal-pie-chart";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container-main">
+      <header className="container-header">Your stats for today:</header>
+      <div className="piechart-container">
+        <PieChart
+          data={[
+            { title: "One", value: 10, color: "#E38627" },
+            { title: "Two", value: 15, color: "#C13C37" },
+            { title: "Three", value: 20, color: "#6A2135" }
+          ]}
+        />
+      </div>
+      <div>Main body content</div>
     </div>
   );
 }
