@@ -1,10 +1,11 @@
 $(document).ready(function() {
+    chrome.identity.getProfileUserInfo(function(userInfo) {
+        $('#userId').text(userInfo.id);
+    });
 	$('#checkPage').click(function() {
-        console.log('outer');
 		chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            console.log('inner');
             chrome.identity.getProfileUserInfo(function(userInfo) {
-				$.post('https://tranquil-wildwood-15780.herokuapp.com/createUser', {
+				$.post('http://tranquil-wildwood-15780.herokuapp.com/createUser', {
 					name: 'Brian',
 					userId: userInfo.id.toString()
 				})
