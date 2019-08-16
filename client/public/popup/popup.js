@@ -5,7 +5,7 @@ $(document).ready(function() {
 	$('#checkPage').click(function() {
 		chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
 			chrome.identity.getProfileUserInfo(function(userInfo) {
-				let username = $('#username').val().trim();
+				let username = $('#username').val().trim().split(' ')[0];
 				if (username === '') {
 					$('#errorText').css('color', 'red');
 					$('#errorText').text('Please enter a valid name');
