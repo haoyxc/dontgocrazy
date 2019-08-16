@@ -1,6 +1,10 @@
 //urls for testing
 const urls = ["*://*.facebook.com/", "*://*.youtube.com/", "*://*.instagram.com/"];
-console.log("HELLP");
+chrome.tabs.sendMessage(activeTab.id, {
+  message: "testing",
+  status: "success",
+  key: "HOLA"
+});
 let active = {};
 const STORAGE = chrome.storage.local;
 
