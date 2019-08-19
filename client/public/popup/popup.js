@@ -17,7 +17,7 @@ $(document).ready(function() {
 					})
 						.done(function() {
 							$('#errorText').css('color', 'green');
-							$('#errorText').text('Connected to your account!');
+							$('#errorText').text('Connected your account!');
 						})
 						.fail(function() {
 							$('#errorText').css('color', 'red');
