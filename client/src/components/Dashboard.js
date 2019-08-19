@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboard, faCalendarDay, faCalendarWeek, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
-function Dashboard({ id }) {
-	let data = [];
+function Dashboard() {
+    const [data, setData] = useState([]);
+    const [labels, setLabels] = useState([]);
 	useEffect(() => {
-		fetch('https://tranquil-wildwood-15780.herokuapp.com/allStats/' + id)
+		fetch('https://tranquil-wildwood-15780.herokuapp.com/allStats/' + localStorage.getItem("userId"))
 			.then(function(response) {
-                console.log('response', response)
 				return response.json();
 			})
 			.then(function(myJson) {
-                console.log('myJson', myJson);
-                console.log(myJson.stats);
+                return myJson.stats;
+            })
+            .then(function(stats) {
+                console.log(stats);
+                setData(stats.map((item) => item.time).slice(0,10))
+                setLabels(stats.map((item) => item.url).slice(0, 10))
             })
             .catch(e => console.log('Error', e));
 	}, []);
@@ -31,12 +35,11 @@ function Dashboard({ id }) {
 					<FontAwesomeIcon icon={faCalendarAlt} /> All-Time
 				</button>
 			</div>
-			{console.log(id)}
 			<Bar
 				data={{
 					datasets: [
 						{
-							data: [ 34, 22, 16, 33, 25, 13, 4, 44, 11, 0 ].sort((a, b) => b - a),
+							data: [...data, 0],
 							backgroundColor: [
 								'#ff6363',
 								'#ffa463',
@@ -50,17 +53,7 @@ function Dashboard({ id }) {
 							]
 						}
 					],
-					labels: [
-						'Facebook',
-						'Leetcode',
-						'Google',
-						'Leetcode',
-						'Youtube',
-						'Cooldox',
-						'Instagram',
-						'Mealpal',
-						'Amazon'
-					]
+					labels: labels
 				}}
 				options={{
 					legend: {

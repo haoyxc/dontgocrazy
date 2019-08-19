@@ -8,14 +8,15 @@ import { faChartBar, faHistory, faChartLine, faPaw } from '@fortawesome/free-sol
 
 function App() {
   const id = localStorage.getItem("userId");
-  const [currentPage, setCurrentPage] = useState(<Dashboard id={id}/>)
+  console.log("id", id);
+  const [currentPage, setCurrentPage] = useState(<Dashboard />)
 	return (
 		<div className="container-main">
 			<header className="container-header">
-				<button className="logo" onClick = {() => setCurrentPage(<Dashboard id={id}/>)}>
+				<button className="logo" onClick = {() => setCurrentPage(<Dashboard />)}>
 					<FontAwesomeIcon icon={faPaw} />
 				</button>
-				<button className="active" onClick = {() => setCurrentPage(<Dashboard id={id}/>)}>
+				<button className="active" onClick = {() => setCurrentPage(<Dashboard />)}>
 					<FontAwesomeIcon icon={faChartBar} /> Dashboard
 				</button>
 				<div />
