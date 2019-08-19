@@ -8,6 +8,7 @@ import { faChartBar, faHistory, faChartLine, faPaw } from '@fortawesome/free-sol
 
 function App() {
   const id = localStorage.getItem("userId");
+  console.log("id", id);
   const [currentPage, setCurrentPage] = useState(<Dashboard />)
 	return (
 		<div className="container-main">
