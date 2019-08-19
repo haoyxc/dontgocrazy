@@ -10,13 +10,14 @@ $(document).ready(function() {
 					$('#errorText').css('color', 'red');
 					$('#errorText').text('Please enter a valid name');
 				} else {
+					localStorage.setItem("userId", userInfo.id.toString())
 					$.post('https://tranquil-wildwood-15780.herokuapp.com/createUser', {
 						name: username,
 						userId: userInfo.id.toString()
 					})
 						.done(function() {
 							$('#errorText').css('color', 'green');
-							$('#errorText').text('Connected to mobile!');
+							$('#errorText').text('Connected to your account!');
 						})
 						.fail(function() {
 							$('#errorText').css('color', 'red');
