@@ -9,7 +9,8 @@
   },
   "background": {
     "scripts": [
-      "js/background.js"
+      "js/background.js",
+      "popup/jquery.min.js"
     ]
   },
   "content_scripts": [
@@ -18,7 +19,8 @@
         "<all_urls>"
       ],
       "js": [
-        "js/content.js"
+        "js/content.js",
+        "popup/jquery.min.js"
       ]
     }
   ],
