@@ -16,7 +16,7 @@ function Dashboard() {
             })
             .then(function(stats) {
                 console.log(stats);
-                setData(stats.map((item) => item.time).slice(0,10))
+                setData(stats.map((item) => Math.ceil(item.time / 60)).slice(0,10))
                 setLabels(stats.map((item) => item.url).slice(0, 10))
             })
             .catch(e => console.log('Error', e));
@@ -49,7 +49,8 @@ function Dashboard() {
 								'#63ffea',
 								'#63a1ff',
 								'#7a63ff',
-								'#a763ff'
+                                '#a763ff',
+                                '#f763ff',
 							]
 						}
 					],
