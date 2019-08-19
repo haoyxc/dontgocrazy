@@ -7,7 +7,6 @@
 //     console.log("STATUS", request.status);
 //   }
 // });
-
 chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
   if (request.message === "testing") {
     console.log("hello");
