@@ -16,7 +16,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         $.post("https://tranquil-wildwood-15780.herokuapp.com/updateStats", {
           userId: userId,
           time: 5,
-          url: activeUrl
+          url: activeUrl,
+          date: new Date()
         })
           .done(function(res) {
             console.log("success");
@@ -39,7 +40,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         $.post("https://tranquil-wildwood-15780.herokuapp.com/updateStats", {
           userId: userId,
           time: 5,
-          url: activeUrl
+          url: activeUrl,
+          date: new Date()
         })
           .done(function(res) {
             console.log("success");
