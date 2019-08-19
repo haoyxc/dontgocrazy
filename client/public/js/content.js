@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           userId: userId,
           time: 5,
           url: activeUrl,
-          date: new Date()
+          date: new Date(new Date().toLocaleDateString())
         })
           .done(function(res) {
             console.log("success");
@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           userId: userId,
           time: 5,
           url: activeUrl,
-          date: new Date()
+          date: new Date(new Date().toLocaleDateString())
         })
           .done(function(res) {
             console.log("success");
