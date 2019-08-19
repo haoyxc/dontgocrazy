@@ -10,7 +10,7 @@ $(document).ready(function() {
 					$('#errorText').css('color', 'red');
 					$('#errorText').text('Please enter a valid name');
 				} else {
-					$.post('http://46de41cf.ngrok.io/createUser', {
+					$.post('https://tranquil-wildwood-15780.herokuapp.com/createUser', {
 						name: username,
 						userId: userInfo.id.toString()
 					})
