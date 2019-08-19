@@ -16,7 +16,7 @@ $(document).ready(function() {
 					})
 						.done(function() {
 							$('#errorText').css('color', 'green');
-							$('#errorText').text('Connected to mobile!');
+							$('#errorText').text('Connected your account!');
 						})
 						.fail(function() {
 							$('#errorText').css('color', 'red');
