@@ -14,7 +14,7 @@ chrome.tabs.onActivated.addListener(info => {
     chrome.identity.getProfileUserInfo(userInfo => {
         userId = userInfo.id.toString();
         // Send message to old tab to stop timer
-        chrome.tabs.sendMessage(prevTabId, { message: "sendData", tabId: prevTabId, userId: userId });
+        chrome.tabs.sendMessage(prevTabId, { message: "clearInterval", tabId: prevTabId, userId: userId });
         // Send message to new tab to start a new timer
         chrome.tabs.sendMessage(currTabId, { message: "changeTab", tabId: currTabId, userId: userId });
     })
@@ -26,18 +26,10 @@ chrome.tabs.onUpdated.addListener((activeTab, {}, tab) => {
     chrome.identity.getProfileUserInfo(userInfo => {
         userId = userInfo.id.toString();
         // Send message to tab to stop timer and send data
-        chrome.tabs.sendMessage(currTabId, { message: "sendData", tabId: currTabId, userId: userId });
+        chrome.tabs.sendMessage(currTabId, { message: "clearInterval", tabId: currTabId, userId: userId });
         // Then send message to tab to start a new timer
         chrome.tabs.sendMessage(currTabId, { message: "changeUrl", tabId: currTabId, userId: userId });
         
     })
 })
 
-// Send message on tab closes to send data
-chrome.tabs.onRemoved.addListener((activeTab, {})=>{
-    // check if user switched google accounts
-    chrome.identity.getProfileUserInfo(userInfo => {
-        userId = userInfo.id.toString();
-        chrome.tabs.sendMessage(activeTab, { message: "sendData", tabId: currTabId, userId: userId })
-    })
-})
