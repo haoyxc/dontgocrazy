@@ -39,9 +39,9 @@ function Dashboard() {
 				<button
 					className="day"
 					onClick={() => {
-                        setTimeInterval('daily');
-                        let d = new Date(day);
-                        let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+						setTimeInterval('daily');
+						let d = new Date(day);
+						let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
 						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
 					}}
@@ -51,55 +51,40 @@ function Dashboard() {
 				<button
 					className="month"
 					onClick={() => {
-                        setTimeInterval('weekly');
-                        let index = 0;
-                        let d = new Date(day);
-						d.setDate(d.getDate() - 7)
-                        for (let i = allData.length - 1; i >= 0; i--) {
-                            let allDate = new Date(allData[i].date);
-                            if (allDate.getTime() < d.getTime())
-                                index = i + 1;
-                        }
-                        let copyArr = allData.slice(index).sort((a, b) => b.time - a.time);
-                        let dayArr = [];
-                        for (let i = 0; i < copyArr.length; i++) {
-                            let found = false;
-                            for (let j = 0; j < dayArr.length; j++) {
-                                if (dayArr[j].url == copyArr[i].url) {
-                                    found = true;
-                                    dayArr[j].time = dayArr[j].time + copyArr[i].time;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                dayArr.push(Object.assign({}, copyArr[i]));
-                            }
-                        }
-                        setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
+						setTimeInterval('weekly');
+						let startIndex = 0;
+						let endIndex = allData.length;
+						let startDate = new Date(day);
+						startDate.setDate(startDate.getDate() - 7);
+						let endDate = new Date(day);
+						let timeData = allData.sort((a, b) => new Date(a.date) - new Date(b.date));
+						for (let i = 0; i < timeData.length; i++) {
+							let newDate = new Date(timeData[i].date);
+							if (newDate >= startDate) {
+								startIndex = i;
+								break;
+							}
+						}
+						for (let i = timeData.length - 1; i >= 0; i--) {
+							let newDate = new Date(timeData[i].date);
+							if (newDate <= endDate) {
+								endIndex = i + 1;
+								break;
+							}
+						}
+						let copyArr = timeData.slice(startIndex, endIndex);
+						let dayArr = mergeData(copyArr);
+						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
 					}}
 				>
-					<FontAwesomeIcon icon={faCalendarWeek} /> Weekly
+					<FontAwesomeIcon icon={faCalendarWeek} /> Last 7 Days
 				</button>
 				<button
 					className="all-time"
 					onClick={() => {
-                        setTimeInterval('allTime');
-                        let copyArr = allData.slice(0).sort((a, b) => b.time - a.time);
-                        let dayArr = [];
-                        for (let i = 0; i < copyArr.length; i++) {
-                            let found = false;
-                            for (let j = 0; j < dayArr.length; j++) {
-                                if (dayArr[j].url == copyArr[i].url) {
-                                    found = true;
-                                    dayArr[j].time = dayArr[j].time + copyArr[i].time;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                dayArr.push(Object.assign({}, copyArr[i]));
-                            }
-                        }
+						setTimeInterval('allTime');
+						let dayArr = mergeData(allData);
 						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
 					}}
@@ -139,12 +124,39 @@ function Dashboard() {
 					className="left"
 					onClick={() => {
 						let d = new Date(day);
-						d.setDate(d.getDate() - 1);
-						setDay(d);
 						let dayArr;
 						if (timeInterval === 'daily') {
+							d.setDate(d.getDate() - 1);
+							setDay(d);
 							dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
-                        }
+						} else if (timeInterval === 'weekly') {
+                            d.setDate(d.getDate() - 7);
+							setDay(d);
+							let startIndex = 0;
+							let endIndex = allData.length;
+							let startDate = new Date(d);
+							startDate.setDate(startDate.getDate() - 7);
+							let endDate = new Date(d);
+							let timeData = allData.sort((a, b) => new Date(a.date) - new Date(b.date));
+							for (let i = 0; i < timeData.length; i++) {
+								let newDate = new Date(timeData[i].date);
+								if (newDate >= startDate) {
+									startIndex = i;
+									break;
+								}
+							}
+							for (let i = timeData.length - 1; i >= 0; i--) {
+								let newDate = new Date(timeData[i].date);
+								if (newDate <= endDate) {
+									endIndex = i + 1;
+									break;
+								}
+							}
+							let copyArr = timeData.slice(startIndex, endIndex);
+							dayArr = mergeData(copyArr);
+						} else {
+							dayArr = mergeData(allData);
+						}
 						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
 					}}
@@ -159,9 +171,39 @@ function Dashboard() {
 					onClick={() => {
 						if (day.toLocaleDateString('en-US') != new Date().toLocaleDateString('en-US')) {
 							let d = new Date(day);
+						let dayArr;
+						if (timeInterval === 'daily') {
 							d.setDate(d.getDate() + 1);
 							setDay(d);
-							let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+							dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+						} else if (timeInterval === 'weekly') {
+                            d.setDate(d.getDate() + 7);
+							setDay(d);
+							let startIndex = 0;
+							let endIndex = allData.length;
+							let startDate = new Date(d);
+							startDate.setDate(startDate.getDate() - 7);
+							let endDate = new Date(d);
+							let timeData = allData.sort((a, b) => new Date(a.date) - new Date(b.date));
+							for (let i = 0; i < timeData.length; i++) {
+								let newDate = new Date(timeData[i].date);
+								if (newDate >= startDate) {
+									startIndex = i;
+									break;
+								}
+							}
+							for (let i = timeData.length - 1; i >= 0; i--) {
+								let newDate = new Date(timeData[i].date);
+								if (newDate <= endDate) {
+									endIndex = i + 1;
+									break;
+								}
+							}
+							let copyArr = timeData.slice(startIndex, endIndex);
+							dayArr = mergeData(copyArr);
+						} else {
+							dayArr = mergeData(allData);
+						}
 							setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 							setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
 						}
@@ -173,5 +215,25 @@ function Dashboard() {
 		</div>
 	);
 }
+
+const mergeData = (allData) => {
+	let copyArr = allData.slice(0);
+	let dayArr = [];
+	for (let i = 0; i < copyArr.length; i++) {
+		let found = false;
+		for (let j = 0; j < dayArr.length; j++) {
+			if (dayArr[j].url == copyArr[i].url) {
+				found = true;
+				dayArr[j].time = dayArr[j].time + copyArr[i].time;
+				break;
+			}
+		}
+		if (!found) {
+			dayArr.push(Object.assign({}, copyArr[i]));
+		}
+	}
+	dayArr = dayArr.sort((a, b) => b.time - a.time);
+	return dayArr;
+};
 
 export default Dashboard;
