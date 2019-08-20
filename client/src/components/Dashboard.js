@@ -4,22 +4,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboard, faCalendarDay, faCalendarWeek, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 function Dashboard() {
-    const [data, setData] = useState([]);
-    const [labels, setLabels] = useState([]);
+	const [ allData, setAllData ] = useState([]);
+	const [ allLabels, setAllLabels ] = useState([]);
+	const [ day, setDay ] = useState(new Date());
+	const [ timeInterval, setTimeInterval ] = useState('daily');
+	const [ intervalData, setIntervalData ] = useState([]);
+	const [ intervalLabels, setIntervalLabels ] = useState([]);
+
 	useEffect(() => {
-		fetch('https://tranquil-wildwood-15780.herokuapp.com/allStats/' + localStorage.getItem("userId"))
+		fetch('https://tranquil-wildwood-15780.herokuapp.com/allStats/' + localStorage.getItem('userId'))
 			.then(function(response) {
 				return response.json();
 			})
 			.then(function(myJson) {
-                return myJson.stats;
-            })
-            .then(function(stats) {
-                console.log(stats);
-                setData(stats.map((item) => Math.ceil(item.time / 60)).slice(0,10))
-                setLabels(stats.map((item) => item.url).slice(0, 10))
-            })
-            .catch(e => console.log('Error', e));
+				return myJson.stats;
+			})
+			.then(function(stats) {
+				setAllData(stats);
+				console.log(stats);
+				let dayArr = stats.filter((item) => item.date == new Date(new Date().toLocaleDateString()));
+				setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
+				setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
+			})
+			.catch((e) => console.log('Error', e));
 	}, []);
 
 	return (
@@ -39,7 +46,7 @@ function Dashboard() {
 				data={{
 					datasets: [
 						{
-							data: [...data, 0],
+							data: [ ...intervalData, 0 ],
 							backgroundColor: [
 								'#ff6363',
 								'#ffa463',
@@ -49,12 +56,12 @@ function Dashboard() {
 								'#63ffea',
 								'#63a1ff',
 								'#7a63ff',
-                                '#a763ff',
-                                '#f763ff',
+								'#a763ff',
+								'#f763ff'
 							]
 						}
 					],
-					labels: labels
+					labels: intervalLabels
 				}}
 				options={{
 					legend: {
@@ -63,13 +70,35 @@ function Dashboard() {
 				}}
 			/>
 			<div className="day-buttons">
-				<button className="left">
+				<button
+					className="left"
+					onClick={() => {
+						let d = new Date(day);
+						d.setDate(d.getDate() - 1);
+						setDay(d);
+						let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
+						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
+					}}
+				>
 					<strong>&lt;</strong>
 				</button>
 				<button className="middle">
-					<FontAwesomeIcon icon={faChalkboard} /> Today
+					<FontAwesomeIcon icon={faChalkboard} /> {day.toLocaleDateString('en-US')}
 				</button>
-				<button className="right">
+				<button
+					className="right"
+					onClick={() => {
+						if (day.toLocaleDateString('en-US') != new Date().toLocaleDateString('en-US')) {
+							let d = new Date(day);
+							d.setDate(d.getDate() + 1);
+							setDay(d);
+							let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+							setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
+							setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
+						}
+					}}
+				>
 					<strong>&gt;</strong>
 				</button>
 			</div>
