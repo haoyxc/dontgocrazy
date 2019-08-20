@@ -21,7 +21,7 @@ function App() {
 				</button>
 				<div />
 				<button onClick = {() => setCurrentPage(<AllTimes />)}>
-					<FontAwesomeIcon icon={faHistory} /> All Times
+					<FontAwesomeIcon icon={faHistory} /> History
 				</button>
 				<div />
 				<button onClick = {() => setCurrentPage(<Insights />)}>
