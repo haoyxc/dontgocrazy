@@ -20,13 +20,12 @@ function Dashboard() {
 				return myJson.stats;
 			})
 			.then(function(stats) {
-                stats = stats.map((item) => {
-                    let url = item.url.split('/')[2];
-                    item.url = psl.parse(url).sld;
-                    return item;
-                })
+				stats = stats.map((item) => {
+					let url = item.url.split('/')[2];
+					item.url = psl.parse(url).sld;
+					return item;
+				});
 				setAllData(stats);
-				console.log(stats);
 				let dayArr = stats.filter((item) => item.date == new Date(new Date().toLocaleDateString()));
 				setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 				setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
@@ -37,13 +36,49 @@ function Dashboard() {
 	return (
 		<div className="piechart-container">
 			<div className="time-buttons">
-				<button className="day">
+				<button
+					className="day"
+					onClick={() => {
+                        setTimeInterval('daily');
+                        let d = new Date(day);
+                        let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
+						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
+					}}
+				>
 					<FontAwesomeIcon icon={faCalendarDay} /> Daily
 				</button>
-				<button className="month">
+				<button
+					className="month"
+					onClick={() => {
+						setTimeInterval('weekly');
+					}}
+				>
 					<FontAwesomeIcon icon={faCalendarWeek} /> Weekly
 				</button>
-				<button className="all-time">
+				<button
+					className="all-time"
+					onClick={() => {
+                        let copyArr = allData.slice(0).sort((a, b) => b.time - a.time);
+                        let dayArr = [];
+                        for (let i = 0; i < copyArr.length; i++) {
+                            let found = false;
+                            for (let j = 0; j < dayArr.length; j++) {
+                                if (dayArr[j].url == copyArr[i].url) {
+                                    found = true;
+                                    dayArr[j].time = dayArr[j].time + copyArr[i].time;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                dayArr.push(Object.assign({}, copyArr[i]));
+                            }
+                        }
+						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
+						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
+						setTimeInterval('allTime');
+					}}
+				>
 					<FontAwesomeIcon icon={faCalendarAlt} /> All-Time
 				</button>
 			</div>
@@ -81,7 +116,10 @@ function Dashboard() {
 						let d = new Date(day);
 						d.setDate(d.getDate() - 1);
 						setDay(d);
-						let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+						let dayArr;
+						if (timeInterval === 'daily') {
+							dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
+                        }
 						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
 					}}
