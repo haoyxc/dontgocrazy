@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import psl from 'psl';
 import { Bar } from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboard, faCalendarDay, faCalendarWeek, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 function Dashboard() {
 	const [ allData, setAllData ] = useState([]);
-	const [ allLabels, setAllLabels ] = useState([]);
 	const [ day, setDay ] = useState(new Date());
 	const [ timeInterval, setTimeInterval ] = useState('daily');
 	const [ intervalData, setIntervalData ] = useState([]);
@@ -20,6 +20,11 @@ function Dashboard() {
 				return myJson.stats;
 			})
 			.then(function(stats) {
+                stats = stats.map((item) => {
+                    let url = item.url.split('/')[2];
+                    item.url = psl.parse(url).sld;
+                    return item;
+                })
 				setAllData(stats);
 				console.log(stats);
 				let dayArr = stats.filter((item) => item.date == new Date(new Date().toLocaleDateString()));
