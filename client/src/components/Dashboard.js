@@ -51,7 +51,32 @@ function Dashboard() {
 				<button
 					className="month"
 					onClick={() => {
-						setTimeInterval('weekly');
+                        setTimeInterval('weekly');
+                        let index = 0;
+                        let d = new Date(day);
+						d.setDate(d.getDate() - 7)
+                        for (let i = allData.length - 1; i >= 0; i--) {
+                            let allDate = new Date(allData[i].date);
+                            if (allDate.getTime() < d.getTime())
+                                index = i + 1;
+                        }
+                        let copyArr = allData.slice(index).sort((a, b) => b.time - a.time);
+                        let dayArr = [];
+                        for (let i = 0; i < copyArr.length; i++) {
+                            let found = false;
+                            for (let j = 0; j < dayArr.length; j++) {
+                                if (dayArr[j].url == copyArr[i].url) {
+                                    found = true;
+                                    dayArr[j].time = dayArr[j].time + copyArr[i].time;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                dayArr.push(Object.assign({}, copyArr[i]));
+                            }
+                        }
+                        setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
+						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
 					}}
 				>
 					<FontAwesomeIcon icon={faCalendarWeek} /> Weekly
@@ -59,6 +84,7 @@ function Dashboard() {
 				<button
 					className="all-time"
 					onClick={() => {
+                        setTimeInterval('allTime');
                         let copyArr = allData.slice(0).sort((a, b) => b.time - a.time);
                         let dayArr = [];
                         for (let i = 0; i < copyArr.length; i++) {
@@ -76,7 +102,6 @@ function Dashboard() {
                         }
 						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
 						setIntervalLabels(dayArr.map((item) => item.url).slice(0, 10));
-						setTimeInterval('allTime');
 					}}
 				>
 					<FontAwesomeIcon icon={faCalendarAlt} /> All-Time
