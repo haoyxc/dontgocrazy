@@ -70,7 +70,7 @@ function Insights() {
 		}
 		if (top3.length > 0){
 			return [[{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}],
-			top3Url, [top3[0].time,top3[1].time,top3[2].time], [web1[0].time, web3[0].time, web3[0].time]
+			top3Url, [top3[0].time,top3[1].time,top3[2].time], [web1[0].time ? web1[0].time : 0, web2[0].time ? web2[0].time : 0, web3[0].time ? web3[0].time : 0]
 		]
 		}	
 	}
@@ -79,11 +79,11 @@ function Insights() {
 	return (
 			<div className="insight-container">
 				<div className="info-container">
-					<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? "increased": "decreased")} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%!</p>
-					<p>You usage {((minuteChange(todayArr, yesterdayArr)>0)? "increased": "decreased")} by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!</p>
+					<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%!</p>
+					<p>Your usage {((minuteChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!</p>
 					<p>Your top 3 sites Today vs Yesterday</p>
 					<ul>
-						{mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[0].map((item)=> <li><p>{item.url}: {Math.abs(item.time)} minute {(item.time >0)?"increase":"decrease"}</p></li>) : <p>Loading</p>}
+						{mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[0].map((item)=> <li><p><strong>{item.url}</strong>: {Math.abs(item.time)} minute {(item.time >0)?<strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>}</p></li>) : <p>Loading</p>}
 					</ul>
 				</div>
 				<div className="radar-container">
