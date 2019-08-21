@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import psl from 'psl';
 
 function Insights() {
 	const [ today, setToday ] = useState(new Date());
@@ -15,6 +16,16 @@ function Insights() {
 				return myJson.stats;
 			})
 			.then(function (stats) {
+				stats = stats.map((item) => {
+                    let url = item.url.split('/')[2];
+                    item.url = psl.parse(url).sld;
+                    for (let i = 0; i < url.length; i++) {
+                        if (url[i] === ':') {
+                            item.url = url;
+                        }
+                    }
+					return item;
+				});
 				setTodayArr(stats.filter((item) => item.date == new Date(today.toLocaleDateString())));
 				setYesterday(yesterday.setDate(today.getDate()-1))
 				setYesterdayArr(stats.filter((item) => item.date == new Date(yesterday.toLocaleDateString())));
@@ -33,7 +44,7 @@ function Insights() {
 		return Math.ceil((todayTime - yesterdayTime)/60)
 	} 
 	function mostUsed (today, yesterday){
-		const top3 = yesterday.slice(0,3)
+		let top3 = yesterday.slice(0,3)
 		let top3Url = top3.map((item)=> item.url)
 		const web1 = today.filter((item)=> item.url === top3Url[0])
 		const web2 = today.filter((item)=> item.url === top3Url[1])
