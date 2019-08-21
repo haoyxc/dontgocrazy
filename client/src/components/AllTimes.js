@@ -117,7 +117,7 @@ function AllTimes() {
 												float: 'right'
 											}}
 										>
-											{urlHours}h{urlMinutes}m{urlSeconds}s&nbsp;&nbsp;%{percentage}&emsp;&emsp;&ensp;
+											{urlHours}h{urlMinutes}m{urlSeconds}s&nbsp;&nbsp;{percentage}%&emsp;&emsp;&ensp;
 										</span>
 									</li>
 								);
