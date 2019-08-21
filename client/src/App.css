@@ -125,7 +125,7 @@ body {
   color: #000;
 }
 .insight-container {
-  width: 65vw;
+  width: 90vw;
   height: 80%;
   margin: 3vh auto;
   min-width: 550px;
@@ -141,7 +141,7 @@ body {
   align-items: center;
 }
 .radar-container{
-  flex: 1;
+  flex: 3;
   display: flex
 }
 p {

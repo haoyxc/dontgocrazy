@@ -77,7 +77,7 @@ function Insights() {
 
 
 	return (
-			<div className="insight-container">
+			yesterdayArr.length !== 0 ? <div className="insight-container">
 				<div className="info-container">
 					<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%!</p>
 					<p>Your usage {((minuteChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!</p>
@@ -110,7 +110,7 @@ function Insights() {
 				/> 
 				</div>
 				
-			</div>
+			</div> : <div>No previous data!</div>
 	);
 }
 
