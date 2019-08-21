@@ -129,6 +129,29 @@ body {
   cursor: pointer;
   color: #000;
 }
+.insight-container {
+  width: 65vw;
+  height: 80%;
+  margin: 3vh auto;
+  min-width: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.info-container{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.radar-container{
+  flex: 1;
+  display: flex
+}
+p {
+  font-size: 14px;
+}
 .history-container {
   width: 55vw;
   margin: 3vh auto;
