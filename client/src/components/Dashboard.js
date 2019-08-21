@@ -10,6 +10,7 @@ function Dashboard() {
 	const [ timeInterval, setTimeInterval ] = useState('daily');
 	const [ intervalData, setIntervalData ] = useState([]);
 	const [ intervalLabels, setIntervalLabels ] = useState([]);
+	const [ activeButtons, setActiveButtons ] = useState(['activeButton' ,'', ''])
 
 	useEffect(() => {
 		fetch('https://tranquil-wildwood-15780.herokuapp.com/allStats/' + localStorage.getItem('userId'))
@@ -42,7 +43,12 @@ function Dashboard() {
 		<div className="piechart-container">
 			<div className="time-buttons">
 				<button
-					className="day"
+					className= "day"
+					style={
+						activeButtons[0] ? {
+							backgroundColor: 'green'
+						}:{}
+					}
 					onClick={() => {
 						setTimeInterval('daily');
 						let d = new Date(day);
