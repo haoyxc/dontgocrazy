@@ -23,7 +23,12 @@ function Dashboard() {
 			.then(function(stats) {
 				stats = stats.map((item) => {
 					let url = item.url.split('/')[2];
-					item.url = psl.parse(url).sld;
+					let parsed = psl.parse(url);
+					if  (parsed.subdomain && parsed.subdomain !== 'www') {
+						item.url = parsed.subdomain + '.' + parsed.sld;
+					} else {
+						item.url = parsed.sld;
+					}
 					for (let i = 0; i < url.length; i++) {
 						if (url[i] === ':') {
 							item.url = url;
@@ -54,7 +59,7 @@ function Dashboard() {
 						)
 					}
 					onClick={() => {
-						setActiveButtons([true, false, false]);
+						setActiveButtons([ true, false, false ]);
 						setTimeInterval('daily');
 						let d = new Date(day);
 						let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
@@ -76,7 +81,7 @@ function Dashboard() {
 						)
 					}
 					onClick={() => {
-						setActiveButtons([false, true, false]);
+						setActiveButtons([ false, true, false ]);
 						setTimeInterval('weekly');
 						let d = new Date(day);
 						let copyArr = generateWeek(d, allData);
@@ -99,7 +104,7 @@ function Dashboard() {
 						)
 					}
 					onClick={() => {
-						setActiveButtons([false, false, true]);
+						setActiveButtons([ false, false, true ]);
 						setTimeInterval('allTime');
 						let dayArr = mergeData(allData);
 						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
@@ -133,6 +138,16 @@ function Dashboard() {
 				options={{
 					legend: {
 						display: false
+					},
+					scales: {
+						yAxes: [
+							{
+								scaleLabel: {
+									display: true,
+									labelString: 'Minutes'
+								}
+							}
+						]
 					}
 				}}
 			/>

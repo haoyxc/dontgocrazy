@@ -20,7 +20,7 @@ function App() {
 						setCurrentPage(<Dashboard />);
 					}}
 				>
-					TrackR
+					Trackr
 				</button>
 				<button
 					className="active"
