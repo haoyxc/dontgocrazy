@@ -152,3 +152,21 @@ body {
 p {
   font-size: 14px;
 }
+.history-container {
+  width: 55vw;
+  margin: 3vh auto;
+  min-width: 550px;
+}
+.header-container {
+  text-align: center;
+}
+.date-header{
+  background: #eeeeee;
+}
+ul {
+  list-style: none;
+}
+
+ul li {
+  font-size: 1.2em;
+}
