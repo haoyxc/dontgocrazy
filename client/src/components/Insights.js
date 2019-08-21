@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import psl from 'psl';
+import { Radar } from 'react-chartjs-2';
 
 function Insights() {
 	const [ today, setToday ] = useState(new Date());
@@ -68,18 +69,47 @@ function Insights() {
 			time3 = 0
 		}
 		if (top3.length > 0){
-			return [{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}]
+			return [[{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}],
+			top3Url, [top3[0].time,top3[1].time,top3[2].time], [web1[0].time, web3[0].time, web3[0].time]
+		]
 		}	
 	}
 
+
 	return (
-			<div className="piechart-container">
-				<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? "increased": "decreased")} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%</p>
-				<p>You used {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes {((minuteChange(todayArr, yesterdayArr)>0)? "more": "less")} than yesterday!</p>
-				<h6>Your top 3 sites yesterday compared to today</h6>
-				<ul>
-					 {mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr).map((item)=> <li>{item.url} used for {item.time} minutes</li>) : <p>Loading</p>}
-				</ul>
+			<div className="insight-container">
+				<div className="info-container">
+					<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? "increased": "decreased")} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%!</p>
+					<p>You usage {((minuteChange(todayArr, yesterdayArr)>0)? "increased": "decreased")} by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!</p>
+					<p>Your top 3 sites Today vs Yesterday</p>
+					<ul>
+						{mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[0].map((item)=> <li><p>{item.url}: {Math.abs(item.time)} minute {(item.time >0)?"increase":"decrease"}</p></li>) : <p>Loading</p>}
+					</ul>
+				</div>
+				<div className="radar-container">
+				<Radar 
+					data={{
+						datasets: [
+							{
+								label: "Yesterday",
+								data: mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[2]:null,
+								backgroundColor: "rgba(255, 99, 132, 0.2)",
+								borderColor: "rgb(255, 99, 132)",
+								pointBackgroundColor: "rgb(255, 99, 132)"
+							}, 
+							{ 
+								label: "Today",
+								data: mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[3]:null,
+								backgroundColor: "rgba(54, 162, 235, 0.2)",
+								borderColor: "rgb(54, 162, 235)",
+								pointBackgroundColor: "rgb(54, 162, 235)"
+							}
+						],
+						labels: mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[1]:null,
+					}}
+				/> 
+				</div>
+				
 			</div>
 	);
 }
