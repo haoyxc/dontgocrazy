@@ -167,6 +167,9 @@ function Insights() {
   ) : (
     <div className="noPrevContainer">
       <div className="noPrevDataTxt">No previous data!</div>
+      <div className="noPrevDataSm">
+        Insights will be displayed tomorrow. Don't worry!
+      </div>
     </div>
   );
 }

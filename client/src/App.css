@@ -166,11 +166,19 @@ ul li {
   font-size: 1.2em;
 }
 .noPrevContainer {
-  flex: 1;
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .noPrevDataTxt {
-  font-size: 20;
+  margin: 0 auto;
+  font-size: 40px;
   font-weight: 300;
+}
+.noPrevDataSm {
+  margin: 0 auto;
+  font-size: 25px;
+  font-weight: 200;
 }
