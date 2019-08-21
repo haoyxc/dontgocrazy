@@ -10,7 +10,7 @@ function Dashboard() {
 	const [ timeInterval, setTimeInterval ] = useState('daily');
 	const [ intervalData, setIntervalData ] = useState([]);
 	const [ intervalLabels, setIntervalLabels ] = useState([]);
-	const [ activeButtons, setActiveButtons ] = useState(['activeButton' ,'', ''])
+	const [ activeButtons, setActiveButtons ] = useState([ true, false, false ]);
 
 	useEffect(() => {
 		fetch('https://tranquil-wildwood-15780.herokuapp.com/allStats/' + localStorage.getItem('userId'))
@@ -43,13 +43,18 @@ function Dashboard() {
 		<div className="piechart-container">
 			<div className="time-buttons">
 				<button
-					className= "day"
+					className="day"
 					style={
-						activeButtons[0] ? {
-							backgroundColor: 'green'
-						}:{}
+						activeButtons[0] ? (
+							{
+								backgroundColor: '#f2f2f2'
+							}
+						) : (
+							{}
+						)
 					}
 					onClick={() => {
+						setActiveButtons([true, false, false]);
 						setTimeInterval('daily');
 						let d = new Date(day);
 						let dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
@@ -61,7 +66,17 @@ function Dashboard() {
 				</button>
 				<button
 					className="month"
+					style={
+						activeButtons[1] ? (
+							{
+								backgroundColor: '#f2f2f2'
+							}
+						) : (
+							{}
+						)
+					}
 					onClick={() => {
+						setActiveButtons([false, true, false]);
 						setTimeInterval('weekly');
 						let d = new Date(day);
 						let copyArr = generateWeek(d, allData);
@@ -74,7 +89,17 @@ function Dashboard() {
 				</button>
 				<button
 					className="all-time"
+					style={
+						activeButtons[2] ? (
+							{
+								backgroundColor: '#f2f2f2'
+							}
+						) : (
+							{}
+						)
+					}
 					onClick={() => {
+						setActiveButtons([false, false, true]);
 						setTimeInterval('allTime');
 						let dayArr = mergeData(allData);
 						setIntervalData(dayArr.map((item) => Math.ceil(item.time / 60)).slice(0, 10));
@@ -149,14 +174,14 @@ function Dashboard() {
 								setDay(d);
 								dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
 							} else if (timeInterval === 'weekly') {
-                                let today = new Date(new Date());
-                                let newDate = new Date(new Date());
-                                newDate.setDate(d.getDate() + 7);
-                                if (newDate > today) {
-                                    d.setDate(today.getDate());
-                                } else {
-                                    d.setDate(d.getDate() + 7);
-                                }
+								let today = new Date(new Date());
+								let newDate = new Date(new Date());
+								newDate.setDate(d.getDate() + 7);
+								if (newDate > today) {
+									d.setDate(today.getDate());
+								} else {
+									d.setDate(d.getDate() + 7);
+								}
 								setDay(d);
 								let copyArr = generateWeek(d, allData);
 								dayArr = mergeData(copyArr);

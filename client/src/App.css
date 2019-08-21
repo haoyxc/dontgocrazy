@@ -40,7 +40,7 @@ body {
   color: white;
 }
 .container-header .logo {
-  margin: 0px 2px 4px 7px;
+  margin: 0px 7px 7px 7px;
   color: white;
   font-size: 23px;
 }
@@ -52,11 +52,6 @@ body {
   height: 25px;
   border-left: 1px solid #999; 
   margin: 0px 0px 7px 1px;
-}
-.container-header .active {
-  border-radius: 7px;
-  color: white;
-  background: #494949;
 }
 .piechart-container {
   width: 65vw;
