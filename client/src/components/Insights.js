@@ -70,7 +70,7 @@ function Insights() {
 		}
 		if (top3.length > 0){
 			return [[{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}],
-			top3Url, [top3[0].time,top3[1].time,top3[2].time], [web1[0].time, web3[0].time, web3[0].time]
+			top3Url, [top3[0].time,top3[1].time,top3[2].time], [web1[0].time ? web1[0].time : 0, web2[0].time ? web2[0].time : 0, web3[0].time ? web3[0].time : 0]
 		]
 		}	
 	}
