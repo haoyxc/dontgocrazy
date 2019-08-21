@@ -38,20 +38,36 @@ function Insights() {
 		const web1 = today.filter((item)=> item.url === top3Url[0])
 		const web2 = today.filter((item)=> item.url === top3Url[1])
 		const web3 = today.filter((item)=> item.url === top3Url[2])
-		// const time1 = Math.floor((web1[0].time - top3[0].time)/60)
-		// const time2 = Math.floor((web2[0].time - top3[1].time)/60)
-		// const time3 =  Math.floor((web3[0].time - top3[2].time)/60)
-		// return [{time: time1, url: web1.url},{time: time2, url: web2.url}, {time: time3, url: web3.url}]
+		let time1;
+		let time2;
+		let time3;
+		if (web1.length > 0){
+			time1 = Math.floor((web1[0].time - top3[0].time)/60)
+		} else {
+			time1 = 0
+		}
+		if (web2.length > 0){
+			time2 = Math.floor((web2[0].time - top3[1].time)/60)
+		} else {
+			time2 = 0
+		}
+		if (web1.length > 0){
+			time3 =  Math.floor((web3[0].time - top3[2].time)/60)
+		} else {
+			time3 = 0
+		}
+		if (top3.length > 0){
+			return [{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}]
+		}	
 	}
 
 	return (
 			<div className="piechart-container">
 				<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? "increased": "decreased")} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%</p>
 				<p>You used {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes {((minuteChange(todayArr, yesterdayArr)>0)? "more": "less")} than yesterday!</p>
-				{console.log(mostUsed(todayArr,yesterdayArr))}
 				<h6>Your top 3 sites yesterday compared to today</h6>
 				<ul>
-					{/* {mostUsed(todayArr,yesterdayArr).map((item)=> <li>{item.url} used for {item.time} minutes</li>)}  */}
+					 {mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr).map((item)=> <li>{item.url} used for {item.time} minutes</li>) : <p>Loading</p>}
 				</ul>
 			</div>
 	);
