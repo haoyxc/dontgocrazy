@@ -144,7 +144,9 @@ function Dashboard() {
 								dayArr = allData.filter((item) => item.date == new Date(d.toLocaleDateString()));
 							} else if (timeInterval === 'weekly') {
                                 let today = new Date(new Date());
-                                if (d.getDate() + 7 > today.getDate()) {
+                                let newDate = new Date(new Date());
+                                newDate.setDate(d.getDate() + 7);
+                                if (newDate > today) {
                                     d.setDate(today.getDate());
                                 } else {
                                     d.setDate(d.getDate() + 7);
