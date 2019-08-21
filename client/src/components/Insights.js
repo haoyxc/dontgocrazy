@@ -80,7 +80,7 @@ function Insights() {
 			<div className="insight-container">
 				<div className="info-container">
 					<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%!</p>
-					<p>You usage {((minuteChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!</p>
+					<p>Your usage {((minuteChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!</p>
 					<p>Your top 3 sites Today vs Yesterday</p>
 					<ul>
 						{mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[0].map((item)=> <li><p><strong>{item.url}</strong>: {Math.abs(item.time)} minute {(item.time >0)?<strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>}</p></li>) : <p>Loading</p>}
