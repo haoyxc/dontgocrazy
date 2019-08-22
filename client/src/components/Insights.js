@@ -107,7 +107,7 @@ function Insights() {
           )}{" "}
           by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!
         </p>
-        <p>Your top 3 sites Today vs Yesterday</p>
+        <p className="topSitesTxt">Your top 3 sites Today vs Yesterday</p>
         <ul>
           {mostUsed(todayArr, yesterdayArr) ? (
             mostUsed(todayArr, yesterdayArr)[0].map(item => (
@@ -115,9 +115,9 @@ function Insights() {
                 <p>
                   <strong>{item.url}</strong>: {Math.abs(item.time)} minute{" "}
                   {item.time > 0 ? (
-                    <strong style={{ color: "green" }}>increased</strong>
+                    <strong style={{ color: "green" }}>increase</strong>
                   ) : (
-                    <strong style={{ color: "red" }}>decreased</strong>
+                    <strong style={{ color: "red" }}>decrease</strong>
                   )}
                 </p>
               </li>
