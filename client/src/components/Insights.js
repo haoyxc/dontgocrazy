@@ -40,51 +40,59 @@ function Insights() {
       })
       .catch(e => console.log("Error", e));
   }, []);
-  
-	function percentChange (today, yesterday){
-		let todayTime = today.reduce((accum, curr)=> accum += curr.time,0)
-		let yesterdayTime = yesterday.reduce((accum, curr)=> accum += curr.time,0)
-		return ((todayTime - yesterdayTime)/(yesterdayTime))*100
-	} 
-	function minuteChange (today, yesterday){
-		let todayTime = today.reduce((accum, curr)=> accum += curr.time,0)
-		let yesterdayTime = yesterday.reduce((accum, curr)=> accum += curr.time,0)
-		return Math.ceil((todayTime - yesterdayTime)/60)
-	} 
-	function mostUsed (today, yesterday){
-		let top3 = yesterday.slice(0,3)
-		let top3Url = top3.map((item)=> item.url)
-		const web1 = today.filter((item)=> item.url === top3Url[0])
-		const web2 = today.filter((item)=> item.url === top3Url[1])
-		const web3 = today.filter((item)=> item.url === top3Url[2])
-		let time1;
-		let time2;
-		let time3;
-		console.log(web1,web2,web3, top3)
-		if (web1 && web1.length > 0){
-			time1 = Math.floor((web1[0].time - top3[0].time)/60)
-		} else {
-			time1 = 0
-		}
-		if (web2 && web2.length > 0){
-			time2 = Math.floor((web2[0].time - top3[1].time)/60)
-		} else {
-			time2 = 0
-		}
-		if (web3 && web3.length > 0){
-			time3 =  Math.floor((web3[0].time - top3[2].time)/60)
-		} else {
-			time3 = 0
-		}
-		if (top3.length > 0){
-			return [
-				[{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}],
-				top3Url, 
-				[top3[0].time,top3[1].time,top3[2].time], 
-				[web1[0] ? web1[0].time : 0, web2[0] ? web2[0].time : 0, web3[0] ? web3[0].time : 0]
-			]
-		}	
-	}
+
+  function percentChange(today, yesterday) {
+    let todayTime = today.reduce((accum, curr) => (accum += curr.time), 0);
+    let yesterdayTime = yesterday.reduce((accum, curr) => (accum += curr.time), 0);
+    return ((todayTime - yesterdayTime) / yesterdayTime) * 100;
+  }
+  function minuteChange(today, yesterday) {
+    let todayTime = today.reduce((accum, curr) => (accum += curr.time), 0);
+    let yesterdayTime = yesterday.reduce((accum, curr) => (accum += curr.time), 0);
+    return Math.ceil((todayTime - yesterdayTime) / 60);
+  }
+  function mostUsed(today, yesterday) {
+    let top3 = yesterday.slice(0, 3);
+    let top3Url = top3.map(item => item.url);
+    const web1 = today.filter(item => item.url === top3Url[0]);
+    const web2 = today.filter(item => item.url === top3Url[1]);
+    const web3 = today.filter(item => item.url === top3Url[2]);
+    let time1;
+    let time2;
+    let time3;
+    console.log(web1, web2, web3, top3);
+    if (web1 && web1.length > 0) {
+      time1 = Math.floor((web1[0].time - top3[0].time) / 60);
+    } else {
+      time1 = 0;
+    }
+    if (web2 && web2.length > 0) {
+      time2 = Math.floor((web2[0].time - top3[1].time) / 60);
+    } else {
+      time2 = 0;
+    }
+    if (web3 && web3.length > 0) {
+      time3 = Math.floor((web3[0].time - top3[2].time) / 60);
+    } else {
+      time3 = 0;
+    }
+    if (top3.length > 0) {
+      return [
+        [
+          { time: time1, url: top3[0].url },
+          { time: time2, url: top3[1].url },
+          { time: time3, url: top3[2].url }
+        ],
+        top3Url,
+        [top3[0].time, top3[1].time, top3[2].time],
+        [
+          web1[0] ? web1[0].time : 0,
+          web2[0] ? web2[0].time : 0,
+          web3[0] ? web3[0].time : 0
+        ]
+      ];
+    }
+  }
 
   return yesterdayArr.length !== 0 ? (
     <div className="insight-container">
@@ -107,7 +115,7 @@ function Insights() {
           )}{" "}
           by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!
         </p>
-        <p>Your top 3 sites Today vs Yesterday</p>
+        <p className="topSitesTxt">Your top 3 sites Today vs Yesterday</p>
         <ul>
           {mostUsed(todayArr, yesterdayArr) ? (
             mostUsed(todayArr, yesterdayArr)[0].map(item => (
@@ -115,9 +123,9 @@ function Insights() {
                 <p>
                   <strong>{item.url}</strong>: {Math.abs(item.time)} minute{" "}
                   {item.time > 0 ? (
-                    <strong style={{ color: "green" }}>increased</strong>
+                    <strong style={{ color: "green" }}>increase</strong>
                   ) : (
-                    <strong style={{ color: "red" }}>decreased</strong>
+                    <strong style={{ color: "red" }}>decrease</strong>
                   )}
                 </p>
               </li>
