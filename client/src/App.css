@@ -35,7 +35,7 @@ body {
   color: #ccc;
   outline: none;
 }
-.container-header button:hover{
+.container-header button:hover {
   cursor: pointer;
   color: white;
 }
@@ -50,7 +50,7 @@ body {
   line-height: normal;
   width: 1px;
   height: 25px;
-  border-left: 1px solid #999; 
+  border-left: 1px solid #999;
   margin: 0px 0px 7px 1px;
 }
 .piechart-container {
@@ -67,7 +67,7 @@ body {
   font-size: 18px;
   border: 1px solid #ccc;
   outline: none;
-  padding-top: 7px ;
+  padding-top: 7px;
   padding-bottom: 5px;
   color: #666;
 }
@@ -101,7 +101,7 @@ body {
   font-size: 18px;
   border: 1px solid #ccc;
   outline: none;
-  padding-top: 7px ;
+  padding-top: 7px;
   padding-bottom: 5px;
   color: #666;
 }
@@ -133,16 +133,16 @@ body {
   justify-content: center;
   align-items: center;
 }
-.info-container{
+.info-container {
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
 }
-.radar-container{
+.radar-container {
   flex: 3;
-  display: flex
+  display: flex;
 }
 p {
   font-size: 14px;
@@ -155,7 +155,7 @@ p {
 .header-container {
   text-align: center;
 }
-.date-header{
+.date-header {
   background: #eeeeee;
 }
 ul {
@@ -164,4 +164,21 @@ ul {
 
 ul li {
   font-size: 1.2em;
+}
+.noPrevContainer {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.noPrevDataTxt {
+  margin: 0 auto;
+  font-size: 40px;
+  font-weight: 300;
+}
+.noPrevDataSm {
+  margin: 0 auto;
+  font-size: 25px;
+  font-weight: 200;
 }

@@ -1,39 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import psl from 'psl';
-import { Radar } from 'react-chartjs-2';
+import React, { useEffect, useState } from "react";
+import psl from "psl";
+import { Radar } from "react-chartjs-2";
 
 function Insights() {
-	const [ today, setToday ] = useState(new Date());
-	const [ yesterday, setYesterday] = useState(new Date());
-	const [todayArr, setTodayArr] = useState([])
-	const [yesterdayArr, setYesterdayArr] = useState([])
+  const [today, setToday] = useState(new Date());
+  const [yesterday, setYesterday] = useState(new Date());
+  const [todayArr, setTodayArr] = useState([]);
+  const [yesterdayArr, setYesterdayArr] = useState([]);
 
-	useEffect(()=> {
-		fetch('https://tranquil-wildwood-15780.herokuapp.com/allStats/' + localStorage.getItem('userId'))
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(myJson) {
-				return myJson.stats;
-			})
-			.then(function (stats) {
-				stats = stats.map((item) => {
-                    let url = item.url.split('/')[2];
-                    item.url = psl.parse(url).sld;
-                    for (let i = 0; i < url.length; i++) {
-                        if (url[i] === ':') {
-                            item.url = url;
-                        }
-                    }
-					return item;
-				});
-				setTodayArr(stats.filter((item) => item.date == new Date(today.toLocaleDateString())));
-				setYesterday(yesterday.setDate(today.getDate()-1))
-				setYesterdayArr(stats.filter((item) => item.date == new Date(yesterday.toLocaleDateString())));
-			})
-			.catch((e) => console.log('Error', e));
-	},[])
-
+  useEffect(() => {
+    fetch(
+      "https://tranquil-wildwood-15780.herokuapp.com/allStats/" +
+        localStorage.getItem("userId")
+    )
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(myJson) {
+        return myJson.stats;
+      })
+      .then(function(stats) {
+        stats = stats.map(item => {
+          let url = item.url.split("/")[2];
+          item.url = psl.parse(url).sld;
+          for (let i = 0; i < url.length; i++) {
+            if (url[i] === ":") {
+              item.url = url;
+            }
+          }
+          return item;
+        });
+        setTodayArr(
+          stats.filter(item => item.date == new Date(today.toLocaleDateString()))
+        );
+        setYesterday(yesterday.setDate(today.getDate() - 1));
+        setYesterdayArr(
+          stats.filter(item => item.date == new Date(yesterday.toLocaleDateString()))
+        );
+      })
+      .catch(e => console.log("Error", e));
+  }, []);
+  
 	function percentChange (today, yesterday){
 		let todayTime = today.reduce((accum, curr)=> accum += curr.time,0)
 		let yesterdayTime = yesterday.reduce((accum, curr)=> accum += curr.time,0)
@@ -79,43 +86,85 @@ function Insights() {
 		}	
 	}
 
-
-	return (
-			yesterdayArr.length !== 0 ? <div className="insight-container">
-				<div className="info-container">
-					<p>Your usage {((percentChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(Math.floor(percentChange(todayArr,yesterdayArr)))}%!</p>
-					<p>Your usage {((minuteChange(todayArr, yesterdayArr)>0)? <strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>)} by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!</p>
-					<p>Your top 3 sites Today vs Yesterday</p>
-					<ul>
-						{mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[0].map((item)=> <li><p><strong>{item.url}</strong>: {Math.abs(item.time)} minute {(item.time >0)?<strong style={{color: 'green'}}>increased</strong>: <strong style={{color: 'red'}}>decreased</strong>}</p></li>) : <p>Loading</p>}
-					</ul>
-				</div>
-				<div className="radar-container">
-				<Radar 
-					data={{
-						datasets: [
-							{
-								label: "Yesterday",
-								data: mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[2]:null,
-								backgroundColor: "rgba(255, 99, 132, 0.2)",
-								borderColor: "rgb(255, 99, 132)",
-								pointBackgroundColor: "rgb(255, 99, 132)"
-							}, 
-							{ 
-								label: "Today",
-								data: mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[3]:null,
-								backgroundColor: "rgba(54, 162, 235, 0.2)",
-								borderColor: "rgb(54, 162, 235)",
-								pointBackgroundColor: "rgb(54, 162, 235)"
-							}
-						],
-						labels: mostUsed(todayArr,yesterdayArr)? mostUsed(todayArr,yesterdayArr)[1]:null,
-					}}
-				/> 
-				</div>
-				
-			</div> : <div>No previous data!</div>
-	);
+  return yesterdayArr.length !== 0 ? (
+    <div className="insight-container">
+      <div className="info-container">
+        <p>
+          Your usage{" "}
+          {percentChange(todayArr, yesterdayArr) > 0 ? (
+            <strong style={{ color: "green" }}>increased</strong>
+          ) : (
+            <strong style={{ color: "red" }}>decreased</strong>
+          )}{" "}
+          by {Math.abs(Math.floor(percentChange(todayArr, yesterdayArr)))}%!
+        </p>
+        <p>
+          Your usage{" "}
+          {minuteChange(todayArr, yesterdayArr) > 0 ? (
+            <strong style={{ color: "green" }}>increased</strong>
+          ) : (
+            <strong style={{ color: "red" }}>decreased</strong>
+          )}{" "}
+          by {Math.abs(minuteChange(todayArr, yesterdayArr))} minutes!
+        </p>
+        <p>Your top 3 sites Today vs Yesterday</p>
+        <ul>
+          {mostUsed(todayArr, yesterdayArr) ? (
+            mostUsed(todayArr, yesterdayArr)[0].map(item => (
+              <li>
+                <p>
+                  <strong>{item.url}</strong>: {Math.abs(item.time)} minute{" "}
+                  {item.time > 0 ? (
+                    <strong style={{ color: "green" }}>increased</strong>
+                  ) : (
+                    <strong style={{ color: "red" }}>decreased</strong>
+                  )}
+                </p>
+              </li>
+            ))
+          ) : (
+            <p>Loading</p>
+          )}
+        </ul>
+      </div>
+      <div className="radar-container">
+        <Radar
+          data={{
+            datasets: [
+              {
+                label: "Yesterday",
+                data: mostUsed(todayArr, yesterdayArr)
+                  ? mostUsed(todayArr, yesterdayArr)[2]
+                  : null,
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgb(255, 99, 132)",
+                pointBackgroundColor: "rgb(255, 99, 132)"
+              },
+              {
+                label: "Today",
+                data: mostUsed(todayArr, yesterdayArr)
+                  ? mostUsed(todayArr, yesterdayArr)[3]
+                  : null,
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgb(54, 162, 235)",
+                pointBackgroundColor: "rgb(54, 162, 235)"
+              }
+            ],
+            labels: mostUsed(todayArr, yesterdayArr)
+              ? mostUsed(todayArr, yesterdayArr)[1]
+              : null
+          }}
+        />
+      </div>
+    </div>
+  ) : (
+    <div className="noPrevContainer">
+      <div className="noPrevDataTxt">No previous data!</div>
+      <div className="noPrevDataSm">
+        Insights will be displayed tomorrow. Don't worry!
+      </div>
+    </div>
+  );
 }
 
 export default Insights;
