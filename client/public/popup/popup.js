@@ -45,6 +45,7 @@ $(document).ready(function() {
     $("#username").show();
     $("#checkPage").show();
     $("#helloText").hide();
+    // getName();
     // let username = $("#username")
     //   .val()
     //   .trim()
