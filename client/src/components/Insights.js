@@ -153,7 +153,14 @@ function Insights() {
             labels: mostUsed(todayArr, yesterdayArr)
               ? mostUsed(todayArr, yesterdayArr)[1]
               : null
-          }}
+		  }}
+		  options={{
+			scale: {
+				ticks: {
+				  beginAtZero: true
+				}
+			  }
+		  }}
         />
       </div>
     </div>
