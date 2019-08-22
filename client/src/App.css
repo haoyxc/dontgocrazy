@@ -138,7 +138,7 @@ body {
   flex: 1;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-end;
 }
 .radar-container {
   flex: 3;
