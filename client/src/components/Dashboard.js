@@ -34,6 +34,8 @@ function Dashboard() {
 							item.url = url;
 						}
 					}
+					if (!item.url)
+						item.url = 'file';
 					return item;
 				});
 				setAllData(stats);
