@@ -53,25 +53,29 @@ function Insights() {
 		let time1;
 		let time2;
 		let time3;
-		if (web1.length > 0){
+		console.log(web1,web2,web3, top3)
+		if (web1 && web1.length > 0){
 			time1 = Math.floor((web1[0].time - top3[0].time)/60)
 		} else {
 			time1 = 0
 		}
-		if (web2.length > 0){
+		if (web2 && web2.length > 0){
 			time2 = Math.floor((web2[0].time - top3[1].time)/60)
 		} else {
 			time2 = 0
 		}
-		if (web1.length > 0){
+		if (web3 && web3.length > 0){
 			time3 =  Math.floor((web3[0].time - top3[2].time)/60)
 		} else {
 			time3 = 0
 		}
 		if (top3.length > 0){
-			return [[{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}],
-			top3Url, [top3[0].time,top3[1].time,top3[2].time], [web1[0].time ? web1[0].time : 0, web2[0].time ? web2[0].time : 0, web3[0].time ? web3[0].time : 0]
-		]
+			return [
+				[{time: time1, url: top3[0].url},{time: time2, url: top3[1].url}, {time: time3, url: top3[2].url}],
+				top3Url, 
+				[top3[0].time,top3[1].time,top3[2].time], 
+				[web1[0] ? web1[0].time : 0, web2[0] ? web2[0].time : 0, web3[0] ? web3[0].time : 0]
+			]
 		}	
 	}
 
